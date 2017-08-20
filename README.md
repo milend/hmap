@@ -30,7 +30,10 @@ You can discover all the commands and options by using `hmap --help`.
 
 ## Xcode
 
-The easiest way to build `hmap` is to use the provided Xcode project.
+The easiest way to build `hmap` is to use the provided Xcode project. Before
+doing so, you must download all dependencies by running:
+
+    swift package update
 
 ## Swift Package Manager
 
