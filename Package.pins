@@ -1,0 +1,18 @@
+{
+  "autoPin": true,
+  "pins": [
+    {
+      "package": "Commander",
+      "reason": null,
+      "repositoryURL": "git@github.com:kylef/Commander.git",
+      "version": "0.6.0"
+    },
+    {
+      "package": "Spectre",
+      "reason": null,
+      "repositoryURL": "https://github.com/kylef/Spectre",
+      "version": "0.7.2"
+    }
+  ],
+  "version": 1
+}
