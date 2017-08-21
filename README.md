@@ -5,6 +5,7 @@ It is written in Swift.
 
 # How to Get
 
+- [Homebrew](https://brew.sh): `brew install milend/taps/hmap`
 - Grab a [release](https://github.com/milend/hmap/releases) from GitHub.
 - Build from source. See instructions below.
 
