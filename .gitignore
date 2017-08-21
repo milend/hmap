@@ -2,6 +2,7 @@
 /.build
 /Packages
 build/
+*.xcodeproj
 *.pbxuser
 !default.pbxuser
 *.mode1v3
