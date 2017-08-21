@@ -39,7 +39,7 @@ let package = Package(
   ],
   dependencies: [
     .Package(
-      url: "git@github.com:kylef/Commander.git",
+      url: "https://github.com/kylef/Commander.git",
       "0.6.0"
     ),
   ],
