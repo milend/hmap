@@ -39,7 +39,6 @@ public enum HeaderMapParseError: LocalizedError {
 
 public enum HeaderMapCreateError: LocalizedError {
   case invalidStringSectionOffset
-  case noEntries
   case stringWithoutOffsetInTable
   case hashTableFull
   case unhashableKey
@@ -82,8 +81,6 @@ extension HeaderMapCreateError {
     switch self {
     case .invalidStringSectionOffset:
       return "The string section offset is invalid"
-    case .noEntries:
-      return "Header map needs to contain at least one entry"
     case .stringWithoutOffsetInTable:
       return "String not present in string section"
     case .hashTableFull:

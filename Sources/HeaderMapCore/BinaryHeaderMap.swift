@@ -277,17 +277,17 @@ func parseHeaderMap(data: Data) throws -> DataHeaderParseResult {
         found: reseredValue)
     }
     
-    guard bucketCount.isPowerOf2 else {
+    guard bucketCount == 0 || bucketCount.isPowerOf2 else {
       throw HeaderMapParseError.bucketCountNotPowerOf2(found: bucketCount)
     }
     
-    guard Int(stringSectionOffset) < data.count else {
+    guard Int(stringSectionOffset) <= data.count else {
       throw HeaderMapParseError.outOfBoundsStringSectionOffset
     }
     
     let bucketsSectionSize = Int(bucketCount) * BinaryHeaderMap.Bucket.packedSize
     let headerAndBucketsSectionSize = H.packedSize + bucketsSectionSize
-    guard headerAndBucketsSectionSize < data.count else {
+    guard headerAndBucketsSectionSize <= data.count else {
       throw HeaderMapParseError.bucketsSectionOverflow
     }
     

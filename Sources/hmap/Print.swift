@@ -36,7 +36,8 @@ func addPrintCommand(to group: Group) {
       let output = try FilePrintCommand.perform(
         input: FilePrintCommand.Input(headerMapFile: url, argumentPath: file)
       )
-      Swift.print(output.text)
+      let text = output.text.isEmpty ? "Empty header map" : output.text
+      Swift.print(text)
     } catch (let error) {
       Swift.print(error.localizedDescription)
       exit(ToolReturnCode.failure.rawValue)

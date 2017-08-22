@@ -129,5 +129,13 @@ class HeaderMapTests: XCTestCase {
     let decodedEntries = hmap.makeJSONHeaderMap().entries
     XCTAssertEqual(entries, decodedEntries)
   }
+  
+  func testEmptyHeaderMap() throws {
+    let hmapBinaryData = try HeaderMap.makeBinary(withEntries: [])
+    XCTAssertNotNil(hmapBinaryData)
+    let hmap = try HeaderMap(data: hmapBinaryData)
+    let hmapEntries = Set<HeaderMap.Entry>(hmap.makeEntryList())
+    XCTAssertEqual(Set(), hmapEntries)
+  }
 }
 

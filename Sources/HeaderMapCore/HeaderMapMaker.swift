@@ -25,10 +25,6 @@ import Foundation
 func makeHeaderMapBinaryData(
   withEntries unsafeEntries: [HeaderMap.Entry]) throws -> Data {
   
-  guard unsafeEntries.count > 0 else {
-    throw HeaderMapCreateError.noEntries
-  }
-  
   let safeEntries = sanitize(headerEntries: unsafeEntries)
   let allStrings = Set(safeEntries.flatMap { [$0.key, $0.prefix, $0.suffix] })
   let stringSection = try makeStringSection(allStrings: allStrings)
@@ -81,8 +77,11 @@ fileprivate func makeStringSection(
   allStrings: Set<String>) throws -> StringSection {
   
   var buffer = Data()
-  buffer.append(UInt8(BinaryHeaderMap.StringSectionOffset.Reserved))
   var offsets = Dictionary<String, BinaryHeaderMap.StringSectionOffset>()
+  
+  if !allStrings.isEmpty {
+    buffer.append(UInt8(BinaryHeaderMap.StringSectionOffset.Reserved))
+  }
   
   for string in allStrings {
     guard let stringBytes = string.data(using: BinaryHeaderMap.StringEncoding) else {
@@ -133,8 +132,6 @@ fileprivate func writeTo<T>(bytePointer: UnsafeMutablePointer<UInt8>, value: T) 
 fileprivate func makeBucketSection(
   forEntries entries: [HeaderMap.Entry],
   stringSection: StringSection) throws -> BucketSection {
-  
-  assert(entries.count > 0)
   
   let bucketCount = numberOfBuckets(forEntryCount: entries.count)
   var bytes = Data(count: bucketCount * BinaryHeaderMap.Bucket.packedSize)
@@ -188,8 +185,6 @@ fileprivate func makeBucketSection(
 }
 
 fileprivate func numberOfBuckets(forEntryCount entryCount: Int) -> Int {
-  assert(entryCount > 0)
-  
   let minimumSlots = Int(ceil(Double(entryCount) * (1.0 / 0.7)))
   var bucketCount = 1
   while bucketCount < minimumSlots {
