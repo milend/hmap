@@ -34,7 +34,6 @@ public enum HeaderMapParseError: LocalizedError {
   case outOfBoundsStringSectionOffset
   case bucketCountNotPowerOf2(found: UInt32)
   case bucketsSectionOverflow
-  case invalidStringSectionOffset
 }
 
 public enum HeaderMapCreateError: LocalizedError {
@@ -70,8 +69,6 @@ extension HeaderMapParseError {
       return "Bucket count is not a power of 2, found \(buckets) buckets"
     case .bucketsSectionOverflow:
       return "Bucket section overflows"
-    case .invalidStringSectionOffset:
-      return "The string section offset is invalid"
     }
   }
 }

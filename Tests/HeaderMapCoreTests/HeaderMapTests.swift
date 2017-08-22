@@ -137,5 +137,12 @@ class HeaderMapTests: XCTestCase {
     let hmapEntries = Set<HeaderMap.Entry>(hmap.makeEntryList())
     XCTAssertEqual(Set(), hmapEntries)
   }
+  
+  func testStringOffsetInBucketSection() throws {
+    let hmapData = try loadFile(named: "Empty", extension: "hmap").unwrap()
+    let headerMap = try HeaderMap(data: hmapData)
+    let entries = Set<HeaderMap.Entry>(headerMap.makeEntryList())
+    XCTAssertEqual(entries, Set())
+  }
 }
 

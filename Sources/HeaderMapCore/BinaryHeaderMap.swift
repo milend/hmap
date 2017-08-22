@@ -63,6 +63,12 @@ struct BinaryHeaderMap {
           MemoryLayout<UInt32>.size +
           MemoryLayout<UInt32>.size;
     }
+    
+    static func headerPlusBucketsSize(
+      bucketCount: DataHeader.BucketCountType) -> Int {
+      let bucketsSectionSize = Int(bucketCount) * BinaryHeaderMap.Bucket.packedSize
+      return packedSize + bucketsSectionSize
+    }
   }
   
   enum Magic: UInt32 {
@@ -174,7 +180,9 @@ extension BinaryHeaderMap {
   
   func getString(at offset: StringSectionOffset) -> String? {
     let begin = Int(header.stringSectionOffset + offset.offset)
-    guard begin < data.count else { return nil }
+    let preambleSize = DataHeader.headerPlusBucketsSize(
+      bucketCount: header.bucketCount)
+    guard preambleSize <= begin, begin < data.count  else { return nil }
     
     let nullByteIndex = data.withUnsafeBytes {
       (bytes: UnsafePointer<UInt8>) -> Int? in
@@ -285,14 +293,9 @@ func parseHeaderMap(data: Data) throws -> DataHeaderParseResult {
       throw HeaderMapParseError.outOfBoundsStringSectionOffset
     }
     
-    let bucketsSectionSize = Int(bucketCount) * BinaryHeaderMap.Bucket.packedSize
-    let headerAndBucketsSectionSize = H.packedSize + bucketsSectionSize
+    let headerAndBucketsSectionSize = H.headerPlusBucketsSize(bucketCount: bucketCount)
     guard headerAndBucketsSectionSize <= data.count else {
       throw HeaderMapParseError.bucketsSectionOverflow
-    }
-    
-    guard headerAndBucketsSectionSize <= Int(stringSectionOffset) else {
-      throw HeaderMapParseError.invalidStringSectionOffset
     }
     
     return DataHeaderParseResult(
