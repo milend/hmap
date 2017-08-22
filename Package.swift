@@ -28,12 +28,14 @@ let package = Package(
       name: "HeaderMapCoreTests",
       dependencies: [
         "HeaderMapTesting",
+        "HeaderMapCore",
       ]
     ),
     Target(
       name: "HeaderMapFrontendTests",
       dependencies: [
         "HeaderMapTesting",
+        "HeaderMapFrontend",
       ]
     )
   ],
