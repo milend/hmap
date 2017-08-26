@@ -82,10 +82,10 @@ class HeaderMapTests: XCTestCase {
   }
   
   func testRealmHeaderMap() throws {
-    let hmapData = try loadFile(named: "Realm", extension: "hmap").unwrap()
+    let hmapData = try TestData.makeRealmHeaderMap().unwrap()
     let headerMap = try HeaderMap(data: hmapData)
     
-    let jsonData = try loadFile(named: "Realm", extension: "json").unwrap()
+    let jsonData = try TestData.makeRealmJSONHeaderMap().unwrap()
     let jsonHeaderMap = try JSONHeaderMap(jsonData: jsonData)
     
     let entries = Set<HeaderMap.Entry>(headerMap.makeEntryList())
@@ -139,7 +139,7 @@ class HeaderMapTests: XCTestCase {
   }
   
   func testStringOffsetInBucketSection() throws {
-    let hmapData = try loadFile(named: "Empty", extension: "hmap").unwrap()
+    let hmapData = try TestData.makeEmptyHeaderMap().unwrap()
     let headerMap = try HeaderMap(data: hmapData)
     let entries = Set<HeaderMap.Entry>(headerMap.makeEntryList())
     XCTAssertEqual(entries, Set())

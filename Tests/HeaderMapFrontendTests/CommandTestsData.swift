@@ -20,35 +20,31 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-import XCTest
-import HeaderMapCore
-import HeaderMapFrontend
-import HeaderMapTesting
 
-class CommandTests: XCTestCase {
-  func testReadCommand() throws {
-    let hmapData = try TestData.makeDataInHeaderMapFormat().unwrap()
-    let input = MemoryPrintCommand.Input(headerMap: hmapData)
-    let output = try MemoryPrintCommand.perform(input: input)
-    
-    let printoutData = try TestData.makeDataInTextFormat().unwrap()
-    let printoutText = try String(data: printoutData, encoding: .utf8).unwrap()
-    XCTAssertEqual(output.text, printoutText)
+import Foundation
+
+struct TestData {
+  static func makeDataInHeaderMapFormat() -> Data? {
+    return Data(base64Encoded: headerMap)
   }
   
-  func testConvertCommand() throws {
-    let hmapData = try TestData.makeDataInHeaderMapFormat().unwrap()
-    let input = MemoryConvertCommand.Input(
-      data: hmapData,
-      from: .hmap,
-      to: .json)
-    
-    let output = try MemoryConvertCommand.perform(input: input)
-    let jsonFileData = try TestData.makeDataInJSONFormat().unwrap()
-    
-    let jsonHeaderFromFile = try JSONHeaderMap(jsonData: jsonFileData)
-    let jsonHeaderFromCommand = try JSONHeaderMap(jsonData: output.data)
-
-    XCTAssertEqual(jsonHeaderFromFile.entries, jsonHeaderFromCommand.entries)
+  static func makeDataInJSONFormat() -> Data? {
+    return Data(base64Encoded: json)
   }
+  
+  static func makeDataInTextFormat() -> Data? {
+    return Data(base64Encoded: text)
+  }
+  
+  fileprivate static let headerMap =
+    "cGFtaAEAAABIAAAACQAAAAQAAAAEAAAAAAAAAAAAAAAAAAAABAAAABYAAAAOAAAAEQAAABMA" +
+    "AAALAAAABgAAAAgAAAABAAAAAEMyAEEAQwBDMQBCMgBBMgBCAEIxAEExAA=="
+  
+  fileprivate static let json =
+    "ewogICJBIjogewogICAgInByZWZpeCI6ICJBMSIsCiAgICAic3VmZml4IjogIkEyIgogIH0s" +
+    "CiAgIkIiOiB7CiAgICAicHJlZml4IjogIkIxIiwKICAgICJzdWZmaXgiOiAiQjIiCiAgfSwK" +
+    "ICAiQyI6IHsKICAgICJwcmVmaXgiOiAiQzEiLAogICAgInN1ZmZpeCI6ICJDMiIKICB9Cn0="
+  
+  fileprivate static let text =
+    "QSAtPiBBMUEyCkIgLT4gQjFCMgpDIC0+IEMxQzI="
 }

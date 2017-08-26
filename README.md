@@ -39,22 +39,6 @@ Then generate an Xcode project by running:
 
     swift package generate-xcodeproj
 
-If you would like to run the included tests, you must *manually* add the test
-data files for the test targets as the Swift Package Manager does not yet have
-such functionality (tracked by [SR-2866](https://bugs.swift.org/browse/SR-2866)).
-
-- Open the generated Xcode project
-- Find the `HeaderMapCoreTests` group in the file hierarchy
-- Right-click on it and select "Add files to hmap..."
-- Select "TestFile" folder from the file picker
-  - Make sure you have selected the "Create groups" option
-  - Make sure you have included the files in the `HeaderMapCoreTests` target
-- Select the `hmap` project in the file hierarchy
-- Select the `HeaderMapCoreTests` target
-- Go to "Build Phases"
-- Click on the "+" button and then select "New Copy Bundle Resources Phase"
-- Click on the "+" in the new phase and select the test files from the previous steps
-
 ## Swift Package Manager
 
 If you would like to build from the command line, run:
@@ -64,3 +48,7 @@ If you would like to build from the command line, run:
 To produce a release build suitable for distribution, run:
 
     swift build -c release -Xswiftc -static-stdlib
+
+To verify that all tests pass, run:
+
+    swift test
