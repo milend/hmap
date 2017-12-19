@@ -25,22 +25,32 @@ import Foundation
 import HeaderMapFrontend
 
 func addPrintCommand(to group: Group) {
-  let fileArgument = Argument<String>(
+  let fileArgument = VariadicArgument<String>(
     "file",
-    description: "Path to header map file"
+    description: "Path(s) to header map file"
   )
   
-  group.command("print", fileArgument) { (file) in
-    do {
-      let url = file.expandedFileURL
-      let output = try FilePrintCommand.perform(
-        input: FilePrintCommand.Input(headerMapFile: url, argumentPath: file)
-      )
-      let text = output.text.isEmpty ? "Empty header map" : output.text
-      Swift.print(text)
-    } catch (let error) {
-      Swift.print(error.localizedDescription)
-      exit(ToolReturnCode.failure.rawValue)
+  group.command("print", fileArgument) { (files) in
+    for file in files {
+        if files.count > 1 {
+            Swift.print(file + ":")
+        }
+        
+        do {
+            let url = file.expandedFileURL
+            let output = try FilePrintCommand.perform(
+                input: FilePrintCommand.Input(headerMapFile: url, argumentPath: file)
+            )
+            let text = output.text.isEmpty ? "Empty header map" : output.text
+            Swift.print(text)
+        } catch (let error) {
+            Swift.print(error.localizedDescription)
+            exit(ToolReturnCode.failure.rawValue)
+        }
+        
+        if files.count > 1 {
+            Swift.print("")
+        }
     }
   }
 }
