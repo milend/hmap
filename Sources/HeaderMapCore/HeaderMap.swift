@@ -52,7 +52,7 @@ public struct HeaderMap {
 
 fileprivate extension BinaryHeaderMap {
   func makeEntries() -> [HeaderMap.Entry] {
-    return (0..<bucketCount).flatMap { (index) in
+    return (0..<bucketCount).compactMap { (index) in
       return getBucket(at: index).flatMap { (bucket) in
         return makeEntry(forBucket: bucket)
       }

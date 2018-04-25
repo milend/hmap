@@ -1,37 +1,48 @@
-// swift-tools-version:3.1
+// swift-tools-version:4.1
 
 import PackageDescription
 
 let package = Package(
   name: "hmap",
+  products: [
+    .executable(name: "hmap", targets: ["hmap"]),
+  ],
+  dependencies: [
+    .package(
+      url: "https://github.com/kylef/Commander.git",
+      from: "0.8.0"
+    ),
+  ],
   targets: [
-    Target(
+    .target(
       name: "hmap",
       dependencies: [
         "HeaderMapCore",
         "HeaderMapFrontend",
+        "Commander",
       ]
     ),
-    Target(
+    .target(
       name: "HeaderMapCore"
     ),
-    Target(
+    .target(
       name: "HeaderMapFrontend",
       dependencies: [
         "HeaderMapCore",
       ]
     ),
-    Target(
-      name: "HeaderMapTesting"
+    .testTarget(
+      name: "HeaderMapTesting",
+      path: "Sources/HeaderMapTesting"
     ),
-    Target(
+    .testTarget(
       name: "HeaderMapCoreTests",
       dependencies: [
         "HeaderMapTesting",
         "HeaderMapCore",
       ]
     ),
-    Target(
+    .testTarget(
       name: "HeaderMapFrontendTests",
       dependencies: [
         "HeaderMapTesting",
@@ -39,11 +50,5 @@ let package = Package(
       ]
     )
   ],
-  dependencies: [
-    .Package(
-      url: "https://github.com/kylef/Commander.git",
-      "0.6.0"
-    ),
-  ],
-  swiftLanguageVersions: [3]
+  swiftLanguageVersions: [4]
 )

@@ -66,7 +66,7 @@ public struct MemoryPrintCommand: ToolCommand {
     let headerMap = try HeaderMap(data: input.headerMap)
     let entries = headerMap.makeEntryList().sorted { return $0.key < $1.key }
     
-    let textLines = entries.flatMap { (entry) -> String? in
+    let textLines = entries.compactMap { (entry) -> String? in
       return "\(entry.key) -> \(entry.prefix)\(entry.suffix)"
     }
     
