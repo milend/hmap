@@ -42,7 +42,7 @@ let package = Package(
   dependencies: [
     .Package(
       url: "https://github.com/kylef/Commander.git",
-      "0.6.0"
+      "0.8.0"
     ),
   ],
   swiftLanguageVersions: [3]
