@@ -23,7 +23,7 @@
 import Commander
 import HeaderMapFrontend
 
-public let version = "1.0.2"
+public let version = "1.0.3"
 
 let commandGroup = Group()
 addPrintCommand(to: commandGroup)
