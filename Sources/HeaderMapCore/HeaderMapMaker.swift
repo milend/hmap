@@ -196,7 +196,7 @@ fileprivate func numberOfBuckets(forEntryCount entryCount: Int) -> Int {
 
 func sanitize(headerEntries entries: [HeaderMap.Entry]) -> [HeaderMap.Entry] {
   var allKeys = Set<String>()
-  return entries.flatMap { (entry) in
+  return entries.compactMap { (entry) in
     guard !allKeys.contains(entry.key) else { return nil }
     allKeys.insert(entry.key)
     return entry
