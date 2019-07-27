@@ -86,7 +86,7 @@ extension JSONHeaderMap.Entry {
 }
 
 public extension JSONHeaderMap {
-  public init(json: Any) throws {
+  init(json: Any) throws {
     guard let dict = json as? [String: Any] else {
       throw JSONHeaderMapError.invalidTopLevelObject
     }
@@ -97,7 +97,7 @@ public extension JSONHeaderMap {
     }
   }
   
-  public init(jsonData: Data) throws {
+  init(jsonData: Data) throws {
     let jsonObj = try JSONSerialization.jsonObject(with: jsonData, options: [])
     try self.init(json: jsonObj)
   }
@@ -137,7 +137,7 @@ enum JSONHeaderMapEntryKey: String {
 // MARK: - Conversion
 
 public extension HeaderMap.Entry {
-  public var jsonEntry: JSONHeaderMap.Entry {
+  var jsonEntry: JSONHeaderMap.Entry {
     return JSONHeaderMap.Entry(
       prefix: prefix,
       suffix: suffix
@@ -156,14 +156,14 @@ extension JSONHeaderMap.Entry: Hashable {
 }
 
 public extension HeaderMap {
-  public func makeJSONHeaderMap() -> JSONHeaderMap {
+  func makeJSONHeaderMap() -> JSONHeaderMap {
     let jsonEntries = makeEntryList().dictionaryMap { (entry) in
       return (entry.key, entry.jsonEntry)
     }
     return JSONHeaderMap(entries: jsonEntries)
   }
   
-  public static func binaryDataFrom(jsonHeaderMap: JSONHeaderMap) throws -> Data {
+  static func binaryDataFrom(jsonHeaderMap: JSONHeaderMap) throws -> Data {
     let hmapEntries = jsonHeaderMap.entries.map { (key, jsonEntry) in
       return HeaderMap.Entry(
         key: key,
@@ -176,7 +176,7 @@ public extension HeaderMap {
 }
 
 public extension JSONHeaderMap {
-  public func makeHeaderMapEntries() -> [HeaderMap.Entry] {
+  func makeHeaderMapEntries() -> [HeaderMap.Entry] {
     return entries.map { (key, value) in
       return HeaderMap.Entry(key: key, prefix: value.prefix, suffix: value.suffix)
     }
