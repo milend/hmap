@@ -25,7 +25,7 @@ import Foundation
 import HeaderMapFrontend
 
 func addPrintCommand(to group: Group) {
-  let fileArgument = VariadicArgument<String>(
+  let fileArgument = Argument<[String]>(
     "file",
     description: "Path(s) to header map file"
   )
