@@ -105,8 +105,10 @@ extension HeaderMap {
 }
 
 extension HeaderMap.Entry: Hashable {
-  public var hashValue: Int {
-    return key.hashValue ^ prefix.hashValue ^ suffix.hashValue
+  public func hash(into hasher: inout Hasher) {
+    hasher.combine(key)
+    hasher.combine(prefix)
+    hasher.combine(suffix)
   }
   
   public static func ==(lhs: HeaderMap.Entry, rhs: HeaderMap.Entry) -> Bool {

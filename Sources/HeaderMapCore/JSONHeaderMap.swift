@@ -146,8 +146,9 @@ public extension HeaderMap.Entry {
 }
 
 extension JSONHeaderMap.Entry: Hashable {
-  public var hashValue: Int {
-    return prefix.hashValue ^ suffix.hashValue
+  public func hash(into hasher: inout Hasher) {
+    hasher.combine(prefix)
+    hasher.combine(suffix)
   }
   
   public static func ==(lhs: JSONHeaderMap.Entry, rhs: JSONHeaderMap.Entry) -> Bool {
