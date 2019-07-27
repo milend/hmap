@@ -31,9 +31,8 @@ let package = Package(
         "HeaderMapCore",
       ]
     ),
-    .testTarget(
-      name: "HeaderMapTesting",
-      path: "Sources/HeaderMapTesting"
+    .target(
+      name: "HeaderMapTesting"
     ),
     .testTarget(
       name: "HeaderMapCoreTests",

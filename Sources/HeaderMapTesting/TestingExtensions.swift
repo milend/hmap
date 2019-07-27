@@ -27,8 +27,8 @@ public enum OptionalError: Error {
   case unwrappedNil
 }
 
-extension Optional {
-  public func unwrap(file: StaticString = #file, line: UInt = #line) throws -> Wrapped {
+public extension Optional {
+  func unwrap(file: StaticString = #file, line: UInt = #line) throws -> Wrapped {
     guard let unwrapped = self else {
       XCTFail("Unwrapped nil: \(file):\(line)")
       throw OptionalError.unwrappedNil
@@ -39,7 +39,7 @@ extension Optional {
 }
 
 public extension XCTestCase {
-  public func loadFile(named name: String, extension ext: String? = nil) throws -> Data? {
+  func loadFile(named name: String, extension ext: String? = nil) throws -> Data? {
     let url = Bundle(for: type(of: self)).url(forResource: name, withExtension: ext)
     return try url.map { try Data(contentsOf: $0) }
   }
