@@ -27,6 +27,11 @@ You can also use the `convert` command to create a binary header map from JSON:
 
 You can discover all the commands and options by using `hmap --help`.
 
+## Requirements
+
+- hmap requires Swift 5.
+- Starting from Xcode 10.2, Swift 5 command line tools require the Swift 5 runtime libraries which are included in macOS Majave 10.4.4. If you're running an earlier version of macOS, you need to install the "Swift 5 Runtime Support for Command Line Tools" available from [More Downloads for Apple Developers](https://developer.apple.com/download/more/).
+
 # Building from Source
 
 ## Xcode
@@ -47,7 +52,7 @@ If you would like to build from the command line, run:
 
 To produce a release build suitable for distribution, run:
 
-    swift build -c release -Xswiftc -static-stdlib
+    swift build -c release
 
 To verify that all tests pass, run:
 

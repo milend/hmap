@@ -136,7 +136,13 @@ fileprivate func makeBucketSection(
   let bucketCount = numberOfBuckets(forEntryCount: entries.count)
   var bytes = Data(count: bucketCount * BinaryHeaderMap.Bucket.packedSize)
   try bytes.withUnsafeMutableBytes {
-    (bytePointer: UnsafeMutablePointer<UInt8>) in
+    (rawBytes: UnsafeMutableRawBufferPointer) in
+    
+    guard let rawBasePointer = rawBytes.baseAddress else {
+      throw HeaderMapCreateError.emptyDataBuffer
+    }
+    
+    let bytePointer = rawBasePointer.bindMemory(to: UInt8.self, capacity: rawBytes.count)
     
     try entries.forEach { (entry) in
       guard let keyHash = entry.key.headerMapHash else {

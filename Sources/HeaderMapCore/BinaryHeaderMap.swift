@@ -185,10 +185,10 @@ extension BinaryHeaderMap {
     guard preambleSize <= begin, begin < data.count  else { return nil }
     
     let nullByteIndex = data.withUnsafeBytes {
-      (bytes: UnsafePointer<UInt8>) -> Int? in
+      (bytes: UnsafeRawBufferPointer) -> Int? in
       
-      for i in begin..<data.count {
-        if bytes.advanced(by: i).pointee == 0x0 {
+      for i in begin..<bytes.count {
+        if bytes[i] == 0x0 {
           return i
         }
       }
@@ -211,8 +211,10 @@ extension BinaryHeaderMap {
       return nil
     }
     
-    return try data.withUnsafeBytes {
-      return try body($0.advanced(by: offset))
+    return try data.withUnsafeBytes { byteBuffer in
+      let basePointer = byteBuffer.baseAddress?.bindMemory(to: UInt8.self, capacity: byteBuffer.count)
+      let offsetPointer = basePointer?.advanced(by: offset)
+      return try offsetPointer.flatMap { try body($0) }
     }
   }
 }
@@ -252,9 +254,14 @@ func parseHeaderMap(data: Data) throws -> DataHeaderParseResult {
     throw HeaderMapParseError.missingDataHeader
   }
   
-  return try data.withUnsafeBytes { (headerBytes: UnsafePointer<UInt8>) in
+  return try data.withUnsafeBytes { (headerRawBytes: UnsafeRawBufferPointer) in
     typealias H = BinaryHeaderMap.DataHeader
     
+    guard let baseRawPointer = headerRawBytes.baseAddress else {
+      throw HeaderMapParseError.missingDataHeader
+    }
+    
+    let headerBytes = baseRawPointer.bindMemory(to: UInt8.self, capacity: headerRawBytes.count)
     let decoder = ByteBufferDecoder(bytes: headerBytes, byteSwap: false)
     
     let magicValue = decoder.advanceByteSwappable(

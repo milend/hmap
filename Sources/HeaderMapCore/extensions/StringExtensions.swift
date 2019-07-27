@@ -29,7 +29,7 @@ extension String {
     }
     
     let lowercasedBytes = charBytes.map { $0.asciiLowercased() }
-    return Data(bytes: lowercasedBytes)
+    return Data(lowercasedBytes)
   }
   
   func clangLowercased() throws -> String? {
@@ -42,12 +42,11 @@ extension String {
     else { return nil }
     
     return characterBytes.withUnsafeBytes {
-      (charBlockPointer: UnsafePointer<UInt8>) -> UInt32 in
+      (charBytes: UnsafeRawBufferPointer) -> UInt32 in
       
       var result = UInt32(0)
-      for i in 0 ..< characterBytes.count {
-        let charPointer = charBlockPointer.advanced(by: i)
-        result += UInt32(charPointer.pointee) * 13
+      for i in 0 ..< charBytes.count {
+        result += UInt32(charBytes[i]) * 13
       }
       return result
     }

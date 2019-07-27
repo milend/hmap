@@ -41,6 +41,7 @@ public enum HeaderMapCreateError: LocalizedError {
   case stringWithoutOffsetInTable
   case hashTableFull
   case unhashableKey
+  case emptyDataBuffer
 }
 
 extension HeaderMapError {
@@ -84,6 +85,8 @@ extension HeaderMapCreateError {
       return "Header map is full"
     case .unhashableKey:
       return "Key cannot be hashed"
+    case .emptyDataBuffer:
+      return "Failed to allocate data buffer"
     }
   }
 }
