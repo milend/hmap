@@ -41,7 +41,7 @@ public struct HeaderMap {
   }
   
   public init(entries: [Entry]) throws {
-  self.entries = try makeIndexedEntries(from: entries)
+    self.entries = try makeIndexedEntries(from: entries)
   }
   
   fileprivate typealias EntryIndex = [Data: Entry]
