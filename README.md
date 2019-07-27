@@ -30,7 +30,7 @@ You can discover all the commands and options by using `hmap --help`.
 ## Requirements
 
 - hmap requires Swift 5.
-- Starting from Xcode 10.2, Swift 5 command line tools require the Swift 5 runtime libraries which are included in macOS Majave 10.4.4. If you're running an earlier version of macOS, you need to install the "Swift 5 Runtime Support for Command Line Tools" available from [More Downloads for Apple Developers](https://developer.apple.com/download/more/).
+- Starting from Xcode 10.2, Swift 5 command line tools require the Swift 5 runtime libraries which are included in macOS Majave 10.4.4. If you're running an earlier version of macOS, you need to install the [Swift 5 Runtime Support for Command Line Tools](https://support.apple.com/kb/DL1998).
 
 # Building from Source
 
