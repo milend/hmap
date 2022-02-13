@@ -3,6 +3,8 @@
 `hmap` is a command line tool to work with Clang header maps produced by Xcode.
 It is written in Swift.
 
+NOTE: I've also created [chmap](https://github.com/milend/chmap), a cross-platform tool which provides similar functionality as `hmap`.
+
 # How to Get
 
 - [Homebrew](https://brew.sh): `brew install milend/taps/hmap`
